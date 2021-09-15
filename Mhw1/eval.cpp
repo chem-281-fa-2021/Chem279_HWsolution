@@ -58,30 +58,30 @@ void F_LJ_fd(arma::mat &force, const vector<Atom> &Atoms, double stepsize)
             double E_backward = E_LJ(Atoms_backward);
             // cout << E_forward << endl;
             // cout << E_backward << endl;
-            force(j,k) = (E_forward - E_backward) /2.0 /stepsize;
+            force(j,k) = -(E_forward - E_backward) /2.0 /stepsize;
         }
 }
 
 void Steepest_descend( vector<Atom> &opt_Atoms, const vector<Atom> &Atoms, double fdstepsize, double thresh){
 
-    double search_stepsize = 0.1;
+    double search_stepsize = 0.3;
     double E_old = E_LJ(Atoms), E_new;
     vector<Atom> new_Atoms = Atoms;
     arma::mat new_point(3, Atoms.size());
     arma::mat old_point(3, Atoms.size());
-    arma::mat Gradient(3, Atoms.size());
+    arma::mat Force(3, Atoms.size());
     ConvertAtomstoCoor(Atoms, old_point);
 
-    // evaluate the gradient at starting point
-    F_LJ_fd(Gradient, Atoms, fdstepsize);
-    Gradient.print("Gradient");
-    cout << "Gradient norm: "<< arma::norm(Gradient, "fro") << endl;
+    // evaluate the Force at starting point
+    F_LJ_fd(Force, Atoms, fdstepsize);
+    Force.print("Force");
+    cout << "Force norm: "<< arma::norm(Force, "fro") << endl;
     cout << "Energy: "<< E_LJ(Atoms) << endl;
     int count = 0;
     cout << endl << "Start opt" << endl << endl;
-    while (arma::norm(Gradient, "fro") > thresh && count < 1e2){
+    while (arma::norm(Force, "fro") > thresh && count < 1e2){
         // calculate new point position
-        new_point = old_point - search_stepsize * Gradient;
+        new_point = old_point + search_stepsize * Force / arma::norm(Force, 2);
         ConvertCoortoAtoms(new_Atoms, new_point);
         E_new = E_LJ(new_Atoms);
         cout << "count "<< count  << " Energy: "<< E_new << endl;
@@ -89,11 +89,11 @@ void Steepest_descend( vector<Atom> &opt_Atoms, const vector<Atom> &Atoms, doubl
         if (E_new < E_old){
             old_point = new_point;
             E_old = E_new;
-            // refresh gradient
-            F_LJ_fd(Gradient, new_Atoms, fdstepsize);
+            // refresh Force
+            F_LJ_fd(Force, new_Atoms, fdstepsize);
             search_stepsize *= 1.2;
             new_point.print("new_point");
-            cout << "Gradient norm: "<< arma::norm(Gradient, "fro") << endl;
+            cout << "Force norm: "<< arma::norm(Force, "fro") << endl;
         }
         else // the step makes function evaluation higher - it is a bad step. what do you do?
             search_stepsize /= 2;

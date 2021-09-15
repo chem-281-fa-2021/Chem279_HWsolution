@@ -4,10 +4,15 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
+  if (argc !=2)
+  {
+  printf("usage hw1 filename, for example hw1 example.txt");
+  return EXIT_FAILURE;
+  }
+  string fname(argv[1]);
   vector<Atom> Atoms;
-  string fname = "example.txt";
   try
   {
     Readatomsformfile(Atoms, fname);
