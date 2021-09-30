@@ -11,7 +11,9 @@ int main(int argc, char* argv[])
 {
   if (argc !=2)
   {
-  printf("usage hw1 filename, for example hw1 example.txt");
+  printf("usage hw1 filename, for example hw1 example.txt\n");
+  printf(" example.txt should have two lines and each line should have x  y z alpha l \n");
+  printf(" Printed matrix is dim_a * dim_b, each dim follow the alphabetical order\n");
   return EXIT_FAILURE;
   }
   string fname(argv[1]);
@@ -26,8 +28,8 @@ int main(int argc, char* argv[])
     return EXIT_FAILURE;
   }
 
-  // sh1.printinfo();
-  // sh2.printinfo();
+  sh1.printinfo();
+  sh2.printinfo();
 
   // printf("This shell has %d functions.\n", sh2.dim_l());
   // const double s1s1 = Overlap_onedim(0.0, 0.0, 1.0, 1.0, 0, 0);
