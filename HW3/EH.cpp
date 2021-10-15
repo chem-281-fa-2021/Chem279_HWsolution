@@ -35,8 +35,8 @@ double Solve_EH(arma::mat &OV_mat, arma::mat &H_mat, arma::mat &C_mat, arma::vec
   vec S_eigenvalue;
   arma::eig_sym(S_eigenvalue, U, OV_mat);
   mat S_invsqrt = arma::inv( arma::diagmat( arma::sqrt(S_eigenvalue)) );
-  // mat X_mat = U * S_invsqrt;
-  mat X_mat = U * S_invsqrt * U.t();
+  mat X_mat = U * S_invsqrt;
+  // mat X_mat = U * S_invsqrt * U.t();
   X_mat.print("X_mat");
 
   mat H_new = X_mat.t() * H_mat * X_mat;
