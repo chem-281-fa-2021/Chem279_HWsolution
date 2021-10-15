@@ -1,0 +1,4 @@
+C2H2 has energy -177.169636
+C2H4 has energy -211.480189
+H2 has energy -35.309897
+
