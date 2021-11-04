@@ -1,0 +1,14 @@
+ETH
+C2H2 has energy -177.169636
+C2H4 has energy -211.480189
+H2 has energy -35.309897
+
+Electron
+C2H2 has energy -779.3
+C2H4 has energy -1003.69
+H2 has energy -59.8716
+
+CNDO Total
+C2H2 has energy -430.1
+C2H4 has energy -477.15
+H2 has energy -40.568941
